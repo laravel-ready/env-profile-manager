@@ -6,16 +6,18 @@ A Laravel package for managing multiple environment configurations (.env files) 
 
 - 🔄 **Multiple Environment Profiles**: Create and manage multiple .env configurations
 - 🎨 **Modern Web Interface**: Vue 3 + Tailwind CSS interface with Monaco Editor
+- 🌓 **Dark/Light Mode**: Built-in theme support with system preference detection
 - 💾 **Automatic Backups**: Automatically backup .env files before changes
+- 🏷️ **Application Names**: Optionally tag profiles with application names
 - 🔒 **Secure**: Configurable middleware protection
 - 📦 **Easy Installation**: Simple composer installation with publish commands
-- 🚀 **Laravel 9/10/11/12 Support**: Compatible with latest Laravel versions
+- 🚀 **Laravel 10/11/12 Support**: Compatible with latest Laravel versions
 - 🔌 **API Support**: RESTful API endpoints for programmatic access
 
 ## Requirements
 
-- PHP 8.0 or higher
-- Laravel 9.0 or higher
+- PHP 8.2 or higher
+- Laravel 10.0 or higher
 
 ## Installation
 
@@ -78,13 +80,12 @@ return [
     'api_middleware' => ['api', 'auth:sanctum'],
     
     // Layout to extend for views
-    'layout' => 'layouts.app',
+    // Set to null to use the package's default layout
+    // Example: 'layouts.app' to use your application's layout
+    'layout' => 'env-profiles::layouts.default',
     
     // Maximum number of .env backups to keep
     'max_backups' => 10,
-    
-    // Permission required (set to null to disable)
-    'permission' => null,
     
     // Enable/disable features
     'features' => [
@@ -134,6 +135,7 @@ use LaravelReady\EnvProfiles\Services\EnvFileService;
 // Create a new profile
 $profile = EnvProfile::create([
     'name' => 'Production',
+    'app_name' => 'My Laravel App',
     'content' => file_get_contents(base_path('.env.production')),
 ]);
 
@@ -150,15 +152,9 @@ $envService->write($newContent);
 
 1. **Protect Routes**: The package uses middleware configuration to protect routes. Make sure to configure appropriate middleware.
 
-2. **Permissions**: You can set a permission in the config file to further restrict access:
+2. **Sensitive Data**: Be careful when storing sensitive data in profiles. Consider encrypting sensitive values.
 
-```php
-'permission' => 'manage-env-profiles',
-```
-
-3. **Sensitive Data**: Be careful when storing sensitive data in profiles. Consider encrypting sensitive values.
-
-4. **Backups**: The package automatically creates backups before modifying .env files. Configure `max_backups` to control disk usage.
+3. **Backups**: The package automatically creates backups before modifying .env files. Configure `max_backups` to control disk usage.
 
 ## Customization
 
@@ -174,13 +170,19 @@ Views will be published to `resources/views/vendor/env-profiles/`.
 
 ### Extending the Layout
 
-By default, the package extends `layouts.app`. You can change this in the configuration:
+By default, the package uses its own layout (`env-profiles::layouts.default`). You can use your application's layout by changing the configuration:
 
 ```php
-'layout' => 'admin.layout',
+'layout' => 'layouts.app',
 ```
 
-Make sure your layout has a `@yield('content')` section and includes the necessary `@stack('styles')` and `@stack('scripts')` directives.
+Or set it to `null` to use the package's default layout:
+
+```php
+'layout' => null,
+```
+
+If using a custom layout, make sure it has a `@yield('content')` section and includes the necessary `@stack('styles')` and `@stack('scripts')` directives.
 
 ## Troubleshooting
 
