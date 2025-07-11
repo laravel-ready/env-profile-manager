@@ -37,6 +37,6 @@
 <script>
     require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } });
 </script>
-<script src="{{ asset('vendor/env-profiles/js/app.js') }}"></script>
+<script type="module" src="{{ asset('vendor/env-profiles/js/app.js') }}"></script>
 @endpush
 @endsection

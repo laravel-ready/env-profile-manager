@@ -49,7 +49,7 @@ const EnvProfileManager = {
             
             if (monacoEditor) {
                 monacoEditor.updateOptions({
-                    theme: isDarkMode.value ? 'vs-dark' : 'vs-light'
+                    theme: isDarkMode.value ? 'env-dark' : 'env-light'
                 });
             }
         };
@@ -68,15 +68,22 @@ const EnvProfileManager = {
             }
         };
 
-        const initMonacoEditor = () => {
+        const initMonacoEditor = async () => {
+            // Load Monaco editor configuration module first
+            const { registerEnvLanguage, registerEnvThemes } = await import('./monaco-env-config.js');
+            
             require(['vs/editor/editor.main'], function() {
+                // Register env language and themes
+                registerEnvLanguage(monaco);
+                registerEnvThemes(monaco);
+
                 const container = document.getElementById('monaco-editor');
                 if (!container) return;
 
                 monacoEditor = monaco.editor.create(container, {
                     value: currentEnvContent.value,
-                    language: 'plaintext',
-                    theme: isDarkMode.value ? 'vs-dark' : 'vs-light',
+                    language: 'env',
+                    theme: isDarkMode.value ? 'env-dark' : 'env-light',
                     automaticLayout: true,
                     minimap: { enabled: false },
                     fontSize: 14,
@@ -273,7 +280,7 @@ const EnvProfileManager = {
                 isDarkMode.value = event.detail.isDark;
                 if (monacoEditor) {
                     monacoEditor.updateOptions({
-                        theme: isDarkMode.value ? 'vs-dark' : 'vs-light'
+                        theme: isDarkMode.value ? 'env-dark' : 'env-light'
                     });
                 }
             });
@@ -450,6 +457,7 @@ const EnvProfileManager = {
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('env-profiles-app');
+    
     if (app) {
         createApp({
             components: {
