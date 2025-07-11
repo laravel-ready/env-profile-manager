@@ -2,11 +2,11 @@
 
 @section('content')
 
-<div id="env-profiles-app" class="min-h-screen bg-gray-50">
+<div id="env-profiles-app" class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto py-8 px-4">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Environment Profiles Manager</h1>
-            <p class="mt-2 text-gray-600">Manage and switch between different .env configurations</p>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Environment Profiles Manager</h1>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">Manage and switch between different .env configurations</p>
         </div>
 
         <env-profile-manager :initial-profiles='@json($profiles)' :initial-env-content='@json($currentEnv)'
@@ -22,6 +22,10 @@
         height: 500px;
         border: 1px solid #e5e7eb;
         border-radius: 0.375rem;
+    }
+    
+    .dark .monaco-editor-container {
+        border-color: #374151;
     }
 </style>
 @endpush

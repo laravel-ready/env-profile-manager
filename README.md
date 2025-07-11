@@ -102,6 +102,7 @@ return [
 After installation, navigate to `/env-profiles` (or your configured route prefix) to access the web interface.
 
 Features available in the web interface:
+
 - View and edit current .env configuration
 - Create new profiles from current configuration
 - Load saved profiles
@@ -203,6 +204,7 @@ Ensure your layout includes the CSRF token meta tag:
 ### Permission Denied Errors
 
 Check that the web server has write permissions for:
+
 - The `.env` file
 - The Laravel base directory (for creating backups)
 

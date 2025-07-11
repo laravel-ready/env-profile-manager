@@ -29,6 +29,7 @@ const EnvProfileManager = {
         const loading = ref(false);
         const message = ref('');
         const messageType = ref('success');
+        const isDarkMode = ref(false);
         let monacoEditor = null;
 
         const activeProfile = computed(() => {
@@ -40,6 +41,26 @@ const EnvProfileManager = {
             return profiles.value.find(p => p.id === selectedProfileId.value) || null;
         });
 
+        const toggleTheme = () => {
+            isDarkMode.value = !isDarkMode.value;
+            localStorage.setItem('env-profiles-theme', isDarkMode.value ? 'dark' : 'light');
+            document.documentElement.classList.toggle('dark', isDarkMode.value);
+            
+            if (monacoEditor) {
+                monacoEditor.updateOptions({
+                    theme: isDarkMode.value ? 'vs-dark' : 'vs-light'
+                });
+            }
+        };
+
+        const initTheme = () => {
+            const savedTheme = localStorage.getItem('env-profiles-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            isDarkMode.value = savedTheme ? savedTheme === 'dark' : prefersDark;
+            document.documentElement.classList.toggle('dark', isDarkMode.value);
+        };
+
         const initMonacoEditor = () => {
             require(['vs/editor/editor.main'], function() {
                 const container = document.getElementById('monaco-editor');
@@ -48,7 +69,7 @@ const EnvProfileManager = {
                 monacoEditor = monaco.editor.create(container, {
                     value: currentEnvContent.value,
                     language: 'plaintext',
-                    theme: 'vs-light',
+                    theme: isDarkMode.value ? 'vs-dark' : 'vs-light',
                     automaticLayout: true,
                     minimap: { enabled: false },
                     fontSize: 14,
@@ -232,6 +253,7 @@ const EnvProfileManager = {
         };
 
         onMounted(() => {
+            initTheme();
             nextTick(() => {
                 initMonacoEditor();
             });
@@ -254,7 +276,9 @@ const EnvProfileManager = {
             loadProfile,
             activateProfile,
             deleteProfile,
-            openCreateModal
+            openCreateModal,
+            isDarkMode,
+            toggleTheme
         };
     },
     template: `
@@ -269,13 +293,13 @@ const EnvProfileManager = {
             </div>
 
             <!-- Profile Management Bar -->
-            <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-gray-700 p-6">
                 <div class="flex flex-wrap items-center gap-4">
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Profile</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select Profile</label>
                         <select v-model="selectedProfileId" 
                                 @change="loadProfile"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <option :value="null">-- Select a profile --</option>
                             <option v-for="profile in profiles" 
                                     :key="profile.id" 
@@ -286,6 +310,17 @@ const EnvProfileManager = {
                     </div>
 
                     <div class="flex flex-wrap gap-2">
+                        <!-- Theme Toggle -->
+                        <button @click="toggleTheme"
+                                class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors"
+                                :title="isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                            <svg v-if="!isDarkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                            <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </button>
                         <button @click="openCreateModal"
                                 :disabled="loading"
                                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
@@ -300,40 +335,40 @@ const EnvProfileManager = {
                 </div>
 
                 <!-- Active Profile Info -->
-                <div v-if="activeProfile" class="mt-4 p-3 bg-blue-50 rounded-lg">
-                    <p class="text-sm text-blue-800">
+                <div v-if="activeProfile" class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <p class="text-sm text-blue-800 dark:text-blue-300">
                         <strong>Active Profile:</strong> {{ activeProfile.name }}
                     </p>
                 </div>
             </div>
 
             <!-- Monaco Editor -->
-            <div class="bg-white rounded-lg shadow-sm p-6">
-                <h2 class="text-xl font-semibold mb-4">Environment Configuration</h2>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-gray-700 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Environment Configuration</h2>
                 <div id="monaco-editor" class="monaco-editor-container"></div>
             </div>
 
             <!-- Profile List -->
-            <div class="bg-white rounded-lg shadow-sm p-6">
-                <h2 class="text-xl font-semibold mb-4">Saved Profiles</h2>
-                <div v-if="profiles.length === 0" class="text-gray-500 text-center py-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-gray-700 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Saved Profiles</h2>
+                <div v-if="profiles.length === 0" class="text-gray-500 dark:text-gray-400 text-center py-8">
                     No profiles saved yet
                 </div>
                 <div v-else class="space-y-2">
                     <div v-for="profile in profiles" 
                          :key="profile.id"
-                         class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                         class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                         <div>
-                            <h3 class="font-medium text-gray-900">{{ profile.name }}</h3>
-                            <p class="text-sm text-gray-600" v-if="profile.app_name">{{ profile.app_name }}</p>
-                            <p class="text-sm text-gray-500">
+                            <h3 class="font-medium text-gray-900 dark:text-gray-100">{{ profile.name }}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400" v-if="profile.app_name">{{ profile.app_name }}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
                                 Updated: {{ new Date(profile.updated_at).toLocaleString() }}
                                 <span v-if="profile.is_active" class="ml-2 text-green-600 font-medium">(Active)</span>
                             </p>
                         </div>
                         <div class="flex gap-2">
                             <button @click="selectedProfileId = profile.id; loadProfile()"
-                                    class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors">
+                                    class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                                 Load
                             </button>
                             <button @click="activateProfile(profile.id)"
@@ -355,28 +390,28 @@ const EnvProfileManager = {
             <div v-if="showCreateModal" 
                  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
                  @click.self="showCreateModal = false">
-                <div class="bg-white rounded-lg p-6 w-full max-w-md">
-                    <h3 class="text-lg font-semibold mb-4">Create New Profile</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Create New Profile</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Profile Name *</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Profile Name *</label>
                             <input v-model="newProfileName"
                                    type="text"
                                    placeholder="Enter profile name"
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Application Name</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Application Name</label>
                             <input v-model="newProfileAppName"
                                    @keyup.enter="saveAsProfile"
                                    type="text"
                                    placeholder="Enter application name"
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>
                     <div class="flex justify-end gap-2">
                         <button @click="showCreateModal = false"
-                                class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                                class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                             Cancel
                         </button>
                         <button @click="saveAsProfile"
