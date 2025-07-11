@@ -1,5 +1,10 @@
 # Laravel Environment Profiles Manager
 
+[![Tests](https://github.com/laravel-ready/env-profiles/actions/workflows/tests.yml/badge.svg)](https://github.com/laravel-ready/env-profiles/actions/workflows/tests.yml)
+[![Latest Stable Version](https://poser.pugx.org/laravel-ready/env-profiles/v)](https://packagist.org/packages/laravel-ready/env-profiles)
+[![Total Downloads](https://poser.pugx.org/laravel-ready/env-profiles/downloads)](https://packagist.org/packages/laravel-ready/env-profiles)
+[![License](https://poser.pugx.org/laravel-ready/env-profiles/license)](https://packagist.org/packages/laravel-ready/env-profiles)
+
 A Laravel package for managing multiple environment configurations (.env files) with an intuitive web interface. Easily switch between different environment profiles, create backups, and manage your application's configuration.
 
 ## Features

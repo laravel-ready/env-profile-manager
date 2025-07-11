@@ -5,7 +5,10 @@
 .DS_Store
 .env
 .phpunit.result.cache
+.php-cs-fixer.cache
 composer.lock
 package-lock.json
 .claude
 CLAUDE.md
+coverage.xml
+.phpunit.cache
