@@ -28,10 +28,11 @@ return [
     | Layout
     |--------------------------------------------------------------------------
     |
-    | The layout to extend for the package views
+    | The layout to extend for the package views.
+    | Set to null to use a standalone page without extending any layout.
     |
     */
-    'layout' => 'layouts.app',
+    'layout' => null,
     
     /*
     |--------------------------------------------------------------------------
