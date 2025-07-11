@@ -3,6 +3,7 @@
 namespace LaravelReady\EnvProfiles\Services;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
 
 class EnvFileService
 {
@@ -33,11 +34,11 @@ class EnvFileService
 
     public function backup()
     {
-        if (!File::exists($this->envPath)) {
+        if (!File::exists($this->envPath) || !config('env-profiles.features.backups', true)) {
             return;
         }
 
-        $backupPath = $this->envPath . '.backup.' . date('Y-m-d-H-i-s');
+        $backupPath = $this->envPath . '.backup.' . date('YmdHis');
         File::copy($this->envPath, $backupPath);
         
         $this->cleanOldBackups();
@@ -63,8 +64,8 @@ class EnvFileService
 
     protected function clearConfigCache()
     {
-        if (function_exists('artisan')) {
-            artisan()->call('config:clear');
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            Artisan::call('config:clear');
         }
     }
 

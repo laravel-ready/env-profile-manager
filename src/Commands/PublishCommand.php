@@ -12,7 +12,7 @@ class PublishCommand extends Command
 
     public function handle()
     {
-        $this->info('Publishing EnvProfiles resources...');
+        $this->info('Publishing Env Profiles resources...');
 
         $params = [
             '--provider' => 'LaravelReady\EnvProfiles\EnvProfilesServiceProvider',
@@ -25,6 +25,7 @@ class PublishCommand extends Command
         $this->call('vendor:publish', array_merge($params, [
             '--tag' => 'env-profiles-config',
         ]));
+        $this->info('✅ Published configuration');
 
         $this->call('vendor:publish', array_merge($params, [
             '--tag' => 'env-profiles-views',
@@ -33,15 +34,16 @@ class PublishCommand extends Command
         $this->call('vendor:publish', array_merge($params, [
             '--tag' => 'env-profiles-assets',
         ]));
+        $this->info('✅ Published assets');
 
         $this->call('vendor:publish', array_merge($params, [
             '--tag' => 'env-profiles-migrations',
         ]));
+        $this->info('✅ Published migrations');
 
-        $this->info('EnvProfiles resources published successfully!');
-        $this->line('');
-        $this->line('Next steps:');
-        $this->line('1. Run "php artisan migrate" to create the env_profiles table');
+        $this->info('🎉 Env Profiles resources published successfully!');
+        $this->info('Next steps:');
+        $this->info('1. Run: php artisan migrate');
         $this->line('2. Visit /' . config('env-profiles.route_prefix', 'env-profiles') . ' to manage your environment profiles');
     }
 }

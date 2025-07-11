@@ -27,9 +27,25 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
-
-        $migration = include __DIR__.'/../src/database/migrations/2025_01_11_000000_create_env_profiles_table.php';
-        $migration->up();
+        config()->set('app.key', 'base64:'.base64_encode('32characterssecretkeyfortesting!'));
+        
+        // Set default package config
+        config()->set('env-profiles.route_prefix', 'env-profiles');
+        config()->set('env-profiles.api_prefix', 'api/env-profiles');
+        config()->set('env-profiles.middleware', ['web']);
+        config()->set('env-profiles.api_middleware', ['api']);
+        config()->set('env-profiles.layout', null);
+        config()->set('env-profiles.max_backups', 10);
+        config()->set('env-profiles.features', [
+            'api' => true,
+            'web_ui' => true,
+            'backups' => true,
+        ]);
+    }
+    
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../src/database/migrations');
     }
 
     protected function createTestEnvFile($content = null)

@@ -10,6 +10,11 @@ class EnvProfile extends Model
     use HasFactory;
     
     protected $table = 'env_profiles';
+    
+    protected static function newFactory()
+    {
+        return \LaravelReady\EnvProfiles\Database\Factories\EnvProfileFactory::new();
+    }
 
     protected $fillable = [
         'name',
@@ -20,6 +25,10 @@ class EnvProfile extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+    ];
+    
+    protected $attributes = [
+        'is_active' => false,
     ];
 
     public function scopeActive($query)

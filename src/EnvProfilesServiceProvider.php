@@ -26,7 +26,9 @@ class EnvProfilesServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        if (config('env-profiles.features.web_ui', true)) {
+            $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        }
         
         if (config('env-profiles.features.api', true)) {
             $this->loadRoutesFrom(__DIR__.'/routes/api.php');
