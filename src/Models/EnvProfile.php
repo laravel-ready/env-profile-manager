@@ -10,6 +10,7 @@ class EnvProfile extends Model
 
     protected $fillable = [
         'name',
+        'app_name',
         'content',
         'is_active',
     ];

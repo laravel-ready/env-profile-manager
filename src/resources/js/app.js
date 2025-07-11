@@ -13,6 +13,10 @@ const EnvProfileManager = {
         apiBaseUrl: {
             type: String,
             required: true
+        },
+        defaultAppName: {
+            type: String,
+            default: 'Laravel'
         }
     },
     setup(props) {
@@ -21,6 +25,7 @@ const EnvProfileManager = {
         const selectedProfileId = ref(null);
         const showCreateModal = ref(false);
         const newProfileName = ref('');
+        const newProfileAppName = ref(props.defaultAppName);
         const loading = ref(false);
         const message = ref('');
         const messageType = ref('success');
@@ -97,6 +102,7 @@ const EnvProfileManager = {
                     },
                     body: JSON.stringify({
                         name: newProfileName.value,
+                        app_name: newProfileAppName.value,
                         content: currentEnvContent.value,
                         is_active: false
                     })
@@ -110,6 +116,7 @@ const EnvProfileManager = {
                 await fetchProfiles();
                 showCreateModal.value = false;
                 newProfileName.value = '';
+                newProfileAppName.value = props.defaultAppName;
                 showMessage('Profile created successfully');
             } catch (error) {
                 showMessage(error.message || 'Failed to create profile', 'error');
@@ -188,6 +195,12 @@ const EnvProfileManager = {
             }
         };
 
+        const openCreateModal = () => {
+            showCreateModal.value = true;
+            newProfileName.value = '';
+            newProfileAppName.value = props.defaultAppName;
+        };
+
         const deleteProfile = async (profileId) => {
             if (!confirm('Are you sure you want to delete this profile?')) {
                 return;
@@ -230,6 +243,7 @@ const EnvProfileManager = {
             selectedProfileId,
             showCreateModal,
             newProfileName,
+            newProfileAppName,
             loading,
             message,
             messageType,
@@ -239,7 +253,8 @@ const EnvProfileManager = {
             overwriteEnv,
             loadProfile,
             activateProfile,
-            deleteProfile
+            deleteProfile,
+            openCreateModal
         };
     },
     template: `
@@ -271,7 +286,7 @@ const EnvProfileManager = {
                     </div>
 
                     <div class="flex flex-wrap gap-2">
-                        <button @click="showCreateModal = true"
+                        <button @click="openCreateModal"
                                 :disabled="loading"
                                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                             Save as Profile
@@ -310,6 +325,7 @@ const EnvProfileManager = {
                          class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                         <div>
                             <h3 class="font-medium text-gray-900">{{ profile.name }}</h3>
+                            <p class="text-sm text-gray-600" v-if="profile.app_name">{{ profile.app_name }}</p>
                             <p class="text-sm text-gray-500">
                                 Updated: {{ new Date(profile.updated_at).toLocaleString() }}
                                 <span v-if="profile.is_active" class="ml-2 text-green-600 font-medium">(Active)</span>
@@ -341,11 +357,23 @@ const EnvProfileManager = {
                  @click.self="showCreateModal = false">
                 <div class="bg-white rounded-lg p-6 w-full max-w-md">
                     <h3 class="text-lg font-semibold mb-4">Create New Profile</h3>
-                    <input v-model="newProfileName"
-                           @keyup.enter="saveAsProfile"
-                           type="text"
-                           placeholder="Enter profile name"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Profile Name *</label>
+                            <input v-model="newProfileName"
+                                   type="text"
+                                   placeholder="Enter profile name"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Application Name</label>
+                            <input v-model="newProfileAppName"
+                                   @keyup.enter="saveAsProfile"
+                                   type="text"
+                                   placeholder="Enter application name"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
                     <div class="flex justify-end gap-2">
                         <button @click="showCreateModal = false"
                                 class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">

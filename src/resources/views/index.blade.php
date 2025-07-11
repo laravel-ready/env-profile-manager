@@ -10,6 +10,7 @@
         </div>
 
         <env-profile-manager :initial-profiles='@json($profiles)' :initial-env-content='@json($currentEnv)'
+            :default-app-name='@json($appName)'
             api-base-url="{{ url(config('env-profiles.api_prefix', 'api/env-profiles')) }}" />
     </div>
 </div>

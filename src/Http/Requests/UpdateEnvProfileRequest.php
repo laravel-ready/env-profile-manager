@@ -21,6 +21,7 @@ class UpdateEnvProfileRequest extends FormRequest
                 'max:255',
                 Rule::unique('env_profiles', 'name')->ignore($this->route('profile')),
             ],
+            'app_name' => 'nullable|string|max:255',
             'content' => 'required|string',
             'is_active' => 'boolean',
         ];

@@ -15,6 +15,7 @@ class StoreEnvProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:env_profiles,name',
+            'app_name' => 'nullable|string|max:255',
             'content' => 'required|string',
             'is_active' => 'boolean',
         ];

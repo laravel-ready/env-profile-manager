@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('env_profiles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('app_name')->nullable();
             $table->longText('content');
             $table->boolean('is_active')->default(false);
             $table->timestamps();

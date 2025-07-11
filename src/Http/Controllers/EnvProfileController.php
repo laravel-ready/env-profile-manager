@@ -22,8 +22,9 @@ class EnvProfileController extends Controller
     {
         $profiles = EnvProfile::orderBy('name')->get();
         $currentEnv = $this->envFileService->read();
+        $appName = config('app.name', 'Laravel');
         
-        return view('env-profiles::index', compact('profiles', 'currentEnv'));
+        return view('env-profiles::index', compact('profiles', 'currentEnv', 'appName'));
     }
 
     public function apiIndex()
@@ -31,6 +32,7 @@ class EnvProfileController extends Controller
         return response()->json([
             'profiles' => EnvProfile::orderBy('name')->get(),
             'current_env' => $this->envFileService->read(),
+            'app_name' => config('app.name', 'Laravel'),
         ]);
     }
 
