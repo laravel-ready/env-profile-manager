@@ -57,8 +57,11 @@
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
             
+            // Ensure proper initialization
             if (isDark) {
                 document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
             }
             
             // Toggle theme
