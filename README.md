@@ -9,7 +9,7 @@ A Laravel package for managing multiple environment configurations (.env files) 
 - 💾 **Automatic Backups**: Automatically backup .env files before changes
 - 🔒 **Secure**: Configurable middleware protection
 - 📦 **Easy Installation**: Simple composer installation with publish commands
-- 🚀 **Laravel 9/10/11 Support**: Compatible with latest Laravel versions
+- 🚀 **Laravel 9/10/11/12 Support**: Compatible with latest Laravel versions
 - 🔌 **API Support**: RESTful API endpoints for programmatic access
 
 ## Requirements
