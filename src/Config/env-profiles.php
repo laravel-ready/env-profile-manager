@@ -11,7 +11,7 @@ return [
     */
     'route_prefix' => 'env-profiles',
     'api_prefix' => 'api/env-profiles',
-    
+
     /*
     |--------------------------------------------------------------------------
     | Middleware
@@ -22,18 +22,20 @@ return [
     */
     'middleware' => ['web', 'auth'],
     'api_middleware' => ['api', 'auth:sanctum'],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Layout
     |--------------------------------------------------------------------------
     |
     | The layout to extend for the package views.
-    | Set to null to use a standalone page without extending any layout.
+    | Set to null to use the package's default layout.
+    | Example: 'layouts.app' to use your application's layout.
+    | Default: 'env-profiles::layouts.default'.
     |
     */
-    'layout' => null,
-    
+    'layout' => 'env-profiles::layouts.default',
+
     /*
     |--------------------------------------------------------------------------
     | Backup Configuration
@@ -43,7 +45,7 @@ return [
     |
     */
     'max_backups' => 10,
-    
+
     /*
     |--------------------------------------------------------------------------
     | Enable Features
