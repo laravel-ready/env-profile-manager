@@ -1,2 +1,11 @@
+/vendor
+/node_modules
+/.idea
+/.vscode
+.DS_Store
+.env
+.phpunit.result.cache
+composer.lock
+package-lock.json
+.claude
 CLAUDE.md
-vendor

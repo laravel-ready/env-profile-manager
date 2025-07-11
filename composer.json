@@ -1,0 +1,45 @@
+{
+    "name": "laravel-ready/env-profiles",
+    "description": "Environment profile manager for Laravel applications",
+    "keywords": ["laravel", "env", "environment", "profiles", "configuration"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Laravel Ready",
+            "email": "info@laravel-ready.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/http": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0|^11.0",
+        "orchestra/testbench": "^8.0|^9.0|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelReady\\EnvProfiles\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelReady\\EnvProfiles\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelReady\\EnvProfiles\\EnvProfilesServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
