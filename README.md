@@ -19,6 +19,10 @@ A Laravel package for managing multiple environment configurations (.env files) 
 - 🚀 **Laravel 10/11/12 Support**: Compatible with latest Laravel versions
 - 🔌 **API Support**: RESTful API endpoints for programmatic access
 
+## Preview
+
+![Preview](./preview.png)
+
 ## Requirements
 
 - PHP 8.2 or higher
