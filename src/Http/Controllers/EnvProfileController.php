@@ -23,7 +23,7 @@ class EnvProfileController extends Controller
         $profiles = EnvProfile::orderBy('name')->get();
         $currentEnv = $this->envFileService->read();
         $appName = config('app.name', 'Laravel');
-        
+
         return view('env-profile-manager::index', compact('profiles', 'currentEnv', 'appName'));
     }
 

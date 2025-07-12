@@ -2,8 +2,8 @@
 
 namespace LaravelReady\EnvProfiles\database\Factories;
 
-use LaravelReady\EnvProfiles\Models\EnvProfile;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use LaravelReady\EnvProfiles\Models\EnvProfile;
 
 class EnvProfileFactory extends Factory
 {
@@ -44,46 +44,46 @@ class EnvProfileFactory extends Factory
     }
 
     /**
-     * Generate realistic .env content
+     * Generate realistic .env content.
      */
     private function generateEnvContent()
     {
         $environment = $this->faker->randomElement(['local', 'staging', 'production']);
         $debug = $environment === 'production' ? 'false' : 'true';
-        
+
         return implode("\n", [
             "APP_NAME=\"{$this->faker->company()}\"",
             "APP_ENV={$environment}",
-            "APP_KEY=base64:" . base64_encode($this->faker->sha256()),
+            'APP_KEY=base64:' . base64_encode($this->faker->sha256()),
             "APP_DEBUG={$debug}",
             "APP_URL={$this->faker->url()}",
-            "",
-            "LOG_CHANNEL=stack",
-            "LOG_DEPRECATIONS_CHANNEL=null",
-            "LOG_LEVEL=debug",
-            "",
-            "DB_CONNECTION=mysql",
-            "DB_HOST=127.0.0.1",
-            "DB_PORT=3306",
+            '',
+            'LOG_CHANNEL=stack',
+            'LOG_DEPRECATIONS_CHANNEL=null',
+            'LOG_LEVEL=debug',
+            '',
+            'DB_CONNECTION=mysql',
+            'DB_HOST=127.0.0.1',
+            'DB_PORT=3306',
             "DB_DATABASE={$this->faker->slug()}",
-            "DB_USERNAME=root",
-            "DB_PASSWORD=",
-            "",
-            "BROADCAST_DRIVER=log",
-            "CACHE_DRIVER=file",
-            "FILESYSTEM_DISK=local",
-            "QUEUE_CONNECTION=sync",
-            "SESSION_DRIVER=file",
-            "SESSION_LIFETIME=120",
-            "",
-            "MAIL_MAILER=smtp",
-            "MAIL_HOST=mailhog",
-            "MAIL_PORT=1025",
-            "MAIL_USERNAME=null",
-            "MAIL_PASSWORD=null",
-            "MAIL_ENCRYPTION=null",
+            'DB_USERNAME=root',
+            'DB_PASSWORD=',
+            '',
+            'BROADCAST_DRIVER=log',
+            'CACHE_DRIVER=file',
+            'FILESYSTEM_DISK=local',
+            'QUEUE_CONNECTION=sync',
+            'SESSION_DRIVER=file',
+            'SESSION_LIFETIME=120',
+            '',
+            'MAIL_MAILER=smtp',
+            'MAIL_HOST=mailhog',
+            'MAIL_PORT=1025',
+            'MAIL_USERNAME=null',
+            'MAIL_PASSWORD=null',
+            'MAIL_ENCRYPTION=null',
             "MAIL_FROM_ADDRESS=\"{$this->faker->email()}\"",
-            "MAIL_FROM_NAME=\"\${APP_NAME}\"",
+            'MAIL_FROM_NAME="${APP_NAME}"',
         ]);
     }
 }

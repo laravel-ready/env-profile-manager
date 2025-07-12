@@ -2,8 +2,8 @@
 
 namespace LaravelReady\EnvProfiles\Services;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
 class EnvFileService
 {
@@ -16,7 +16,7 @@ class EnvFileService
 
     public function read()
     {
-        if (!File::exists($this->envPath)) {
+        if (! File::exists($this->envPath)) {
             return '';
         }
 
@@ -26,21 +26,21 @@ class EnvFileService
     public function write($content)
     {
         $this->backup();
-        
+
         File::put($this->envPath, $content);
-        
+
         $this->clearConfigCache();
     }
 
     public function backup()
     {
-        if (!File::exists($this->envPath) || !config('env-profile-manager.features.backups', true)) {
+        if (! File::exists($this->envPath) || ! config('env-profile-manager.features.backups', true)) {
             return;
         }
 
         $backupPath = $this->envPath . '.backup.' . date('YmdHis');
         File::copy($this->envPath, $backupPath);
-        
+
         $this->cleanOldBackups();
     }
 
@@ -48,14 +48,14 @@ class EnvFileService
     {
         $backupFiles = File::glob(base_path('.env.backup.*'));
         $maxBackups = config('env-profile-manager.max_backups', 10);
-        
+
         if (count($backupFiles) > $maxBackups) {
             usort($backupFiles, function ($a, $b) {
                 return filemtime($a) - filemtime($b);
             });
-            
+
             $filesToDelete = array_slice($backupFiles, 0, count($backupFiles) - $maxBackups);
-            
+
             foreach ($filesToDelete as $file) {
                 File::delete($file);
             }
@@ -64,7 +64,7 @@ class EnvFileService
 
     protected function clearConfigCache()
     {
-        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+        if (app()->runningInConsole() && ! app()->runningUnitTests()) {
             Artisan::call('config:clear');
         }
     }
@@ -76,7 +76,7 @@ class EnvFileService
 
         foreach ($lines as $line) {
             $line = trim($line);
-            
+
             if (empty($line) || strpos($line, '#') === 0) {
                 continue;
             }
@@ -93,15 +93,15 @@ class EnvFileService
     protected function parseValue($value)
     {
         $value = trim($value);
-        
+
         if (preg_match('/^"(.*)"\s*$/', $value, $matches)) {
             return $matches[1];
         }
-        
+
         if (preg_match('/^\'(.*)\'\s*$/', $value, $matches)) {
             return $matches[1];
         }
-        
+
         return $value;
     }
 }

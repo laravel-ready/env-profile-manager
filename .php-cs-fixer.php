@@ -39,12 +39,7 @@ return (new Config())
             'keep_multiple_spaces_after_comma' => true,
         ],
         'single_trait_insert_per_statement' => true,
-        'blank_line_after_namespace' => true,
         'blank_line_after_opening_tag' => true,
-        'braces' => [
-            'allow_single_line_anonymous_class_with_empty_body' => true,
-            'allow_single_line_closure' => true,
-        ],
         'concat_space' => ['spacing' => 'one'],
         'declare_equal_normalize' => true,
         'function_typehint_space' => true,
@@ -55,7 +50,6 @@ return (new Config())
         'new_with_braces' => true,
         'no_blank_lines_after_class_opening' => true,
         'no_blank_lines_after_phpdoc' => true,
-        'no_blank_lines_before_namespace' => true,
         'no_empty_comment' => true,
         'no_empty_phpdoc' => true,
         'no_empty_statement' => true,
@@ -106,7 +100,6 @@ return (new Config())
         'return_type_declaration' => true,
         'semicolon_after_instruction' => true,
         'short_scalar_cast' => true,
-        'single_blank_line_before_namespace' => true,
         'single_class_element_per_statement' => true,
         'single_quote' => true,
         'space_after_semicolon' => [

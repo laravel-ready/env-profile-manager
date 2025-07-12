@@ -2,15 +2,15 @@
 
 namespace LaravelReady\EnvProfiles\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class EnvProfile extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'env_profiles';
-    
+
     protected static function newFactory()
     {
         return \LaravelReady\EnvProfiles\database\Factories\EnvProfileFactory::new();
@@ -26,7 +26,7 @@ class EnvProfile extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
-    
+
     protected $attributes = [
         'is_active' => false,
     ];
@@ -39,7 +39,7 @@ class EnvProfile extends Model
     public function activate()
     {
         self::where('is_active', true)->update(['is_active' => false]);
-        
+
         $this->update(['is_active' => true]);
     }
 
@@ -55,7 +55,7 @@ class EnvProfile extends Model
 
         foreach ($lines as $line) {
             $line = trim($line);
-            
+
             if (empty($line) || strpos($line, '#') === 0) {
                 continue;
             }

@@ -34,7 +34,7 @@ it('can activate a profile', function () {
         'name' => 'Profile 1',
         'content' => $this->envContent,
     ]);
-    
+
     $profile2 = EnvProfile::create([
         'name' => 'Profile 2',
         'content' => $this->envContent,
@@ -47,8 +47,8 @@ it('can activate a profile', function () {
 });
 
 it('deactivates other profiles when activating one', function () {
-    $profiles = collect(range(1, 3))->map(fn ($i) => 
-        EnvProfile::create([
+    $profiles = collect(range(1, 3))->map(
+        fn ($i) => EnvProfile::create([
             'name' => "Profile {$i}",
             'content' => $this->envContent,
             'is_active' => true,
@@ -62,10 +62,10 @@ it('deactivates other profiles when activating one', function () {
 
     $newProfile->activate();
 
-    $profiles->each(fn ($profile) => 
-        expect($profile->fresh()->is_active)->toBeFalse()
+    $profiles->each(
+        fn ($profile) => expect($profile->fresh()->is_active)->toBeFalse()
     );
-    
+
     expect($newProfile->fresh()->is_active)->toBeTrue();
 });
 
@@ -101,7 +101,7 @@ it('can get active profile using scope', function () {
 
 it('can parse env content as array', function () {
     $content = "APP_NAME=Laravel\nAPP_ENV=local\n# This is a comment\nDB_CONNECTION=mysql\nEMPTY_VALUE=\nQUOTED_VALUE=\"quoted value\"\nSINGLE_QUOTED='single quoted'";
-    
+
     $profile = EnvProfile::create([
         'name' => 'Test Profile',
         'content' => $content,
@@ -121,7 +121,7 @@ it('can parse env content as array', function () {
 
 it('ignores comments and empty lines when parsing', function () {
     $content = "# Comment line\n\nAPP_NAME=Laravel\n\n# Another comment\nAPP_ENV=local\n\n";
-    
+
     $profile = EnvProfile::create([
         'name' => 'Test Profile',
         'content' => $content,
@@ -136,7 +136,7 @@ it('ignores comments and empty lines when parsing', function () {
 
 it('handles malformed env lines gracefully', function () {
     $content = "VALID_KEY=value\nINVALID_LINE_WITHOUT_EQUALS\nANOTHER_VALID=test";
-    
+
     $profile = EnvProfile::create([
         'name' => 'Test Profile',
         'content' => $content,
