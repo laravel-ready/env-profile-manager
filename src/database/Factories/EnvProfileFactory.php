@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelReady\EnvProfiles\Database\Factories;
+namespace LaravelReady\EnvProfiles\database\Factories;
 
 use LaravelReady\EnvProfiles\Models\EnvProfile;
 use Illuminate\Database\Eloquent\Factories\Factory;

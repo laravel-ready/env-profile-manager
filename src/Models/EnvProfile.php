@@ -13,7 +13,7 @@ class EnvProfile extends Model
     
     protected static function newFactory()
     {
-        return \LaravelReady\EnvProfiles\Database\Factories\EnvProfileFactory::new();
+        return \LaravelReady\EnvProfiles\database\Factories\EnvProfileFactory::new();
     }
 
     protected $fillable = [
