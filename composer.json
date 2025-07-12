@@ -19,8 +19,8 @@
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0",
         "orchestra/testbench": "^8.0|^9.0|^10.0",
-        "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest": "^2.36",
+        "pestphp/pest-plugin-laravel": "^2.4",
         "phpstan/phpstan": "^1.10"
     },
     "autoload": {
