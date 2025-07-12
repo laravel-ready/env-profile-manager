@@ -22,7 +22,11 @@ jobs:
           - laravel: 11.*
             testbench: 9.*
           - laravel: 12.*
-            testbench: 9.*
+            testbench: 10.*@dev
+        exclude:
+          # Laravel 12 with prefer-lowest might not work with current test dependencies
+          - laravel: 12.*
+            dependency-version: prefer-lowest
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
@@ -44,6 +48,10 @@ jobs:
 
       - name: Install dependencies
         run: |
+          if [[ "${{ matrix.laravel }}" == "12.*" ]]; then
+            composer config minimum-stability dev
+            composer config prefer-stable true
+          fi
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
