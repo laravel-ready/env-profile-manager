@@ -1,5 +1,5 @@
 {
-    "name": "laravel-ready/env-profiles",
+    "name": "laravel-ready/env-profile-manager",
     "description": "Environment profile manager for Laravel applications",
     "keywords": ["laravel", "env", "environment", "profiles", "configuration"],
     "type": "library",
