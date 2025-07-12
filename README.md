@@ -1,4 +1,4 @@
-# Laravel Environment Profiles Manager
+# Laravel Environment Profile Manager
 
 [![Tests](https://github.com/laravel-ready/env-profile-manager/actions/workflows/tests.yml/badge.svg)](https://github.com/laravel-ready/env-profile-manager/actions/workflows/tests.yml)
 [![Latest Stable Version](https://poser.pugx.org/laravel-ready/env-profile-manager/v)](https://packagist.org/packages/laravel-ready/env-profile-manager)
@@ -39,23 +39,23 @@ composer require laravel-ready/env-profile-manager
 2. Publish the package resources:
 
 ```bash
-php artisan env-profiles:publish
+php artisan env-profile-manager:publish
 ```
 
 Or publish specific resources:
 
 ```bash
 # Publish config file
-php artisan vendor:publish --tag=env-profiles-config
+php artisan vendor:publish --tag=env-profile-manager-config
 
 # Publish views (if you want to customize)
-php artisan vendor:publish --tag=env-profiles-views
+php artisan vendor:publish --tag=env-profile-manager-views
 
 # Publish assets
-php artisan vendor:publish --tag=env-profiles-assets
+php artisan vendor:publish --tag=env-profile-manager-assets
 
 # Publish migrations
-php artisan vendor:publish --tag=env-profiles-migrations
+php artisan vendor:publish --tag=env-profile-manager-migrations
 ```
 
 3. Run the migrations:
@@ -72,15 +72,15 @@ php artisan migrate
 
 ## Configuration
 
-The configuration file is published to `config/env-profiles.php`. Here are the available options:
+The configuration file is published to `config/env-profile-manager.php`. Here are the available options:
 
 ```php
 return [
     // Web route prefix
-    'route_prefix' => 'env-profiles',
+    'route_prefix' => 'env-profile-manager',
     
     // API route prefix
-    'api_prefix' => 'api/env-profiles',
+    'api_prefix' => 'api/env-profile-manager',
     
     // Middleware for web routes
     'middleware' => ['web', 'auth'],
@@ -91,7 +91,7 @@ return [
     // Layout to extend for views
     // Set to null to use the package's default layout
     // Example: 'layouts.app' to use your application's layout
-    'layout' => 'env-profiles::layouts.default',
+    'layout' => 'env-profile-manager::layouts.default',
     
     // Maximum number of .env backups to keep
     'max_backups' => 10,
@@ -109,7 +109,7 @@ return [
 
 ### Web Interface
 
-After installation, navigate to `/env-profiles` (or your configured route prefix) to access the web interface.
+After installation, navigate to `/env-profile-manager` (or your configured route prefix) to access the web interface.
 
 Features available in the web interface:
 
@@ -124,14 +124,14 @@ Features available in the web interface:
 
 If API is enabled in configuration, the following endpoints are available:
 
-- `GET /api/env-profiles` - List all profiles and current .env content
-- `POST /api/env-profiles` - Create a new profile
-- `GET /api/env-profiles/{id}` - Get a specific profile
-- `PUT /api/env-profiles/{id}` - Update a profile
-- `DELETE /api/env-profiles/{id}` - Delete a profile
-- `POST /api/env-profiles/{id}/activate` - Activate a profile
-- `GET /api/env-profiles/current-env` - Get current .env content
-- `PUT /api/env-profiles/current-env` - Update current .env content
+- `GET /api/env-profile-manager` - List all profiles and current .env content
+- `POST /api/env-profile-manager` - Create a new profile
+- `GET /api/env-profile-manager/{id}` - Get a specific profile
+- `PUT /api/env-profile-manager/{id}` - Update a profile
+- `DELETE /api/env-profile-manager/{id}` - Delete a profile
+- `POST /api/env-profile-manager/{id}/activate` - Activate a profile
+- `GET /api/env-profile-manager/current-env` - Get current .env content
+- `PUT /api/env-profile-manager/current-env` - Update current .env content
 
 ### Programmatic Usage
 
@@ -172,14 +172,14 @@ $envService->write($newContent);
 To customize the views, publish them and edit as needed:
 
 ```bash
-php artisan vendor:publish --tag=env-profiles-views
+php artisan vendor:publish --tag=env-profile-manager-views
 ```
 
-Views will be published to `resources/views/vendor/env-profiles/`.
+Views will be published to `resources/views/vendor/env-profile-manager/`.
 
 ### Extending the Layout
 
-By default, the package uses its own layout (`env-profiles::layouts.default`). You can use your application's layout by changing the configuration:
+By default, the package uses its own layout (`env-profile-manager::layouts.default`). You can use your application's layout by changing the configuration:
 
 ```php
 'layout' => 'layouts.app',

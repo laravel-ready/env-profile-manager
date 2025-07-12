@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use LaravelReady\EnvProfiles\Http\Controllers\EnvProfileController;
 
-Route::group(['prefix' => config('env-profiles.api_prefix', 'api/env-profiles'), 'middleware' => config('env-profiles.api_middleware', ['api', 'auth:sanctum'])], function () {
+Route::group(['prefix' => config('env-profile-manager.api_prefix', 'api/env-profile-manager'), 'middleware' => config('env-profile-manager.api_middleware', ['api', 'auth:sanctum'])], function () {
     Route::get('/', [EnvProfileController::class, 'apiIndex']);
     Route::post('/', [EnvProfileController::class, 'store']);
     Route::get('/current-env', [EnvProfileController::class, 'getCurrentEnv']);

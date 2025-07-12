@@ -44,7 +44,7 @@ const EnvProfileManager = {
 
         const toggleTheme = () => {
             isDarkMode.value = !isDarkMode.value;
-            localStorage.setItem('env-profiles-theme', isDarkMode.value ? 'dark' : 'light');
+            localStorage.setItem('env-profile-manager-theme', isDarkMode.value ? 'dark' : 'light');
             document.documentElement.classList.toggle('dark', isDarkMode.value);
             
             if (monacoEditor) {
@@ -55,7 +55,7 @@ const EnvProfileManager = {
         };
 
         const initTheme = () => {
-            const savedTheme = localStorage.getItem('env-profiles-theme');
+            const savedTheme = localStorage.getItem('env-profile-manager-theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             
             isDarkMode.value = savedTheme ? savedTheme === 'dark' : prefersDark;
@@ -456,13 +456,13 @@ const EnvProfileManager = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const app = document.getElementById('env-profiles-app');
+    const app = document.getElementById('env-profile-manager-app');
     
     if (app) {
         createApp({
             components: {
                 'env-profile-manager': EnvProfileManager
             }
-        }).mount('#env-profiles-app');
+        }).mount('#env-profile-manager-app');
     }
 });

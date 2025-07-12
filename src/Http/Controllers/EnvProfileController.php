@@ -24,7 +24,7 @@ class EnvProfileController extends Controller
         $currentEnv = $this->envFileService->read();
         $appName = config('app.name', 'Laravel');
         
-        return view('env-profiles::index', compact('profiles', 'currentEnv', 'appName'));
+        return view('env-profile-manager::index', compact('profiles', 'currentEnv', 'appName'));
     }
 
     public function apiIndex()
@@ -47,7 +47,7 @@ class EnvProfileController extends Controller
             ], 201);
         }
 
-        return redirect()->route('env-profiles.index')
+        return redirect()->route('env-profile-manager.index')
             ->with('success', 'Profile created successfully');
     }
 
@@ -67,7 +67,7 @@ class EnvProfileController extends Controller
             ]);
         }
 
-        return redirect()->route('env-profiles.index')
+        return redirect()->route('env-profile-manager.index')
             ->with('success', 'Profile updated successfully');
     }
 
@@ -81,7 +81,7 @@ class EnvProfileController extends Controller
             ]);
         }
 
-        return redirect()->route('env-profiles.index')
+        return redirect()->route('env-profile-manager.index')
             ->with('success', 'Profile deleted successfully');
     }
 
@@ -97,7 +97,7 @@ class EnvProfileController extends Controller
             ]);
         }
 
-        return redirect()->route('env-profiles.index')
+        return redirect()->route('env-profile-manager.index')
             ->with('success', 'Profile activated and applied successfully');
     }
 

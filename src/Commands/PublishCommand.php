@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class PublishCommand extends Command
 {
-    protected $signature = 'env-profiles:publish {--force : Overwrite any existing files}';
+    protected $signature = 'env-profile-manager:publish {--force : Overwrite any existing files}';
 
     protected $description = 'Publish all EnvProfiles resources';
 
@@ -23,27 +23,27 @@ class PublishCommand extends Command
         }
 
         $this->call('vendor:publish', array_merge($params, [
-            '--tag' => 'env-profiles-config',
+            '--tag' => 'env-profile-manager-config',
         ]));
         $this->info('✅ Published configuration');
 
         $this->call('vendor:publish', array_merge($params, [
-            '--tag' => 'env-profiles-views',
+            '--tag' => 'env-profile-manager-views',
         ]));
 
         $this->call('vendor:publish', array_merge($params, [
-            '--tag' => 'env-profiles-assets',
+            '--tag' => 'env-profile-manager-assets',
         ]));
         $this->info('✅ Published assets');
 
         $this->call('vendor:publish', array_merge($params, [
-            '--tag' => 'env-profiles-migrations',
+            '--tag' => 'env-profile-manager-migrations',
         ]));
         $this->info('✅ Published migrations');
 
         $this->info('🎉 Env Profiles resources published successfully!');
         $this->info('Next steps:');
         $this->info('1. Run: php artisan migrate');
-        $this->line('2. Visit /' . config('env-profiles.route_prefix', 'env-profiles') . ' to manage your environment profiles');
+        $this->line('2. Visit /' . config('env-profile-manager.route_prefix', 'env-profile-manager') . ' to manage your environment profiles');
     }
 }

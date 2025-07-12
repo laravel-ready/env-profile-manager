@@ -53,7 +53,7 @@
             const themeToggle = document.getElementById('theme-toggle');
             
             // Initialize theme
-            const savedTheme = localStorage.getItem('env-profiles-theme');
+            const savedTheme = localStorage.getItem('env-profile-manager-theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
             
@@ -67,7 +67,7 @@
             // Toggle theme
             themeToggle?.addEventListener('click', function() {
                 const isDark = document.documentElement.classList.toggle('dark');
-                localStorage.setItem('env-profiles-theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('env-profile-manager-theme', isDark ? 'dark' : 'light');
                 
                 // Dispatch custom event for Vue component
                 window.dispatchEvent(new CustomEvent('theme-changed', { detail: { isDark } }));

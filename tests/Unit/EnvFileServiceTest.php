@@ -58,7 +58,7 @@ it('does not create backup when env file does not exist', function () {
 });
 
 it('limits number of backups to max_backups config', function () {
-    config(['env-profiles.max_backups' => 3]);
+    config(['env-profile-manager.max_backups' => 3]);
     $this->createTestEnvFile($this->testContent);
     
     // Create 5 backups
@@ -72,7 +72,7 @@ it('limits number of backups to max_backups config', function () {
 });
 
 it('keeps newest backups when cleaning old ones', function () {
-    config(['env-profiles.max_backups' => 2]);
+    config(['env-profile-manager.max_backups' => 2]);
     $this->createTestEnvFile($this->testContent);
     
     // Create backups with identifiable content
@@ -128,7 +128,7 @@ it('handles special characters in env content', function () {
 });
 
 it('does not create backup when backups feature is disabled', function () {
-    config(['env-profiles.features.backups' => false]);
+    config(['env-profile-manager.features.backups' => false]);
     $this->createTestEnvFile($this->testContent);
     
     $this->service->write("NEW_CONTENT=test");

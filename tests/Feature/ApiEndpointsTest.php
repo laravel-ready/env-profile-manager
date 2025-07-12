@@ -10,9 +10,9 @@ beforeEach(function () {
     $this->createTestEnvFile($this->envContent);
     
     config([
-        'env-profiles.api_prefix' => 'api/env-profiles',
-        'env-profiles.api_middleware' => ['api'],
-        'env-profiles.features.api' => true,
+        'env-profile-manager.api_prefix' => 'api/env-profile-manager',
+        'env-profile-manager.api_middleware' => ['api'],
+        'env-profile-manager.features.api' => true,
     ]);
 });
 
@@ -30,7 +30,7 @@ describe('API Index', function () {
             'content' => $this->envContent
         ]));
         
-        $response = $this->getJson('/api/env-profiles');
+        $response = $this->getJson('/api/env-profile-manager');
         
         $response->assertOk()
             ->assertJsonStructure([
@@ -48,7 +48,7 @@ describe('API Index', function () {
     });
     
     it('returns empty profiles array when none exist', function () {
-        $response = $this->getJson('/api/env-profiles');
+        $response = $this->getJson('/api/env-profile-manager');
         
         $response->assertOk()
             ->assertJsonCount(0, 'profiles');
@@ -68,7 +68,7 @@ describe('API Store', function () {
             'is_active' => false,
         ];
         
-        $response = $this->postJson('/api/env-profiles', $data);
+        $response = $this->postJson('/api/env-profile-manager', $data);
         
         $response->assertCreated()
             ->assertJson([
@@ -88,7 +88,7 @@ describe('API Store', function () {
     });
     
     it('validates required fields', function () {
-        $response = $this->postJson('/api/env-profiles', []);
+        $response = $this->postJson('/api/env-profile-manager', []);
         
         $response->assertUnprocessable()
             ->assertJsonValidationErrors(['name', 'content']);
@@ -100,7 +100,7 @@ describe('API Store', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->postJson('/api/env-profiles', [
+        $response = $this->postJson('/api/env-profile-manager', [
             'name' => 'Existing',
             'content' => 'NEW_CONTENT',
         ]);
@@ -110,7 +110,7 @@ describe('API Store', function () {
     });
     
     it('accepts profile without app_name', function () {
-        $response = $this->postJson('/api/env-profiles', [
+        $response = $this->postJson('/api/env-profile-manager', [
             'name' => 'No App Name',
             'content' => 'TEST=true',
         ]);
@@ -130,7 +130,7 @@ describe('API Show', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->getJson("/api/env-profiles/{$profile->id}");
+        $response = $this->getJson("/api/env-profile-manager/{$profile->id}");
         
         $response->assertOk()
             ->assertJson([
@@ -142,7 +142,7 @@ describe('API Show', function () {
     });
     
     it('returns 404 for non-existent profile', function () {
-        $response = $this->getJson('/api/env-profiles/999');
+        $response = $this->getJson('/api/env-profile-manager/999');
         
         $response->assertNotFound();
     });
@@ -156,7 +156,7 @@ describe('API Update', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->putJson("/api/env-profiles/{$profile->id}", [
+        $response = $this->putJson("/api/env-profile-manager/{$profile->id}", [
             'name' => 'Updated',
             'app_name' => 'Updated App',
             'content' => 'UPDATED=true',
@@ -182,7 +182,7 @@ describe('API Update', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->putJson("/api/env-profiles/{$profile->id}", [
+        $response = $this->putJson("/api/env-profile-manager/{$profile->id}", [
             'name' => '',
             'content' => '',
         ]);
@@ -197,7 +197,7 @@ describe('API Update', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->putJson("/api/env-profiles/{$profile->id}", [
+        $response = $this->putJson("/api/env-profile-manager/{$profile->id}", [
             'name' => 'Test',
             'app_name' => 'New App Name',
             'content' => $this->envContent,
@@ -215,7 +215,7 @@ describe('API Delete', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->deleteJson("/api/env-profiles/{$profile->id}");
+        $response = $this->deleteJson("/api/env-profile-manager/{$profile->id}");
         
         $response->assertOk()
             ->assertJson([
@@ -226,7 +226,7 @@ describe('API Delete', function () {
     });
     
     it('returns 404 when deleting non-existent profile', function () {
-        $response = $this->deleteJson('/api/env-profiles/999');
+        $response = $this->deleteJson('/api/env-profile-manager/999');
         
         $response->assertNotFound();
     });
@@ -239,7 +239,7 @@ describe('API Activate', function () {
             'content' => 'ACTIVATED=true',
         ]);
         
-        $response = $this->postJson("/api/env-profiles/{$profile->id}/activate");
+        $response = $this->postJson("/api/env-profile-manager/{$profile->id}/activate");
         
         $response->assertOk()
             ->assertJson([
@@ -257,7 +257,7 @@ describe('API Activate', function () {
 
 describe('API Current Env', function () {
     it('returns current env content', function () {
-        $response = $this->getJson('/api/env-profiles/current-env');
+        $response = $this->getJson('/api/env-profile-manager/current-env');
         
         $response->assertOk()
             ->assertJson([
@@ -268,7 +268,7 @@ describe('API Current Env', function () {
     it('can update current env content', function () {
         $newContent = 'API_UPDATED=true';
         
-        $response = $this->putJson('/api/env-profiles/current-env', [
+        $response = $this->putJson('/api/env-profile-manager/current-env', [
             'content' => $newContent,
         ]);
         
@@ -281,7 +281,7 @@ describe('API Current Env', function () {
     });
     
     it('validates content for env update', function () {
-        $response = $this->putJson('/api/env-profiles/current-env', []);
+        $response = $this->putJson('/api/env-profile-manager/current-env', []);
         
         $response->assertUnprocessable()
             ->assertJsonValidationErrors(['content']);

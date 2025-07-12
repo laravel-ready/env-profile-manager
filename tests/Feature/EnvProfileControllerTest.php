@@ -12,9 +12,9 @@ beforeEach(function () {
     
     // Setup default config
     config([
-        'env-profiles.route_prefix' => 'env-profiles',
-        'env-profiles.middleware' => ['web'],
-        'env-profiles.layout' => null,
+        'env-profile-manager.route_prefix' => 'env-profile-manager',
+        'env-profile-manager.middleware' => ['web'],
+        'env-profile-manager.layout' => null,
     ]);
 });
 
@@ -27,7 +27,7 @@ describe('Web Routes', function () {
         // Mock the view to avoid rendering issues in test environment
         $this->withViewErrors([]);
         
-        $response = $this->get('/env-profiles');
+        $response = $this->get('/env-profile-manager');
         
         // Since view rendering fails in test environment, just check that the route exists
         // and the controller method is called
@@ -68,7 +68,7 @@ describe('Web Routes', function () {
 
 describe('Store Profile', function () {
     it('can create a new profile via web', function () {
-        $response = $this->post('/env-profiles', [
+        $response = $this->post('/env-profile-manager', [
             'name' => 'New Profile',
             'app_name' => 'New App',
             'content' => 'NEW_ENV=test',
@@ -86,7 +86,7 @@ describe('Store Profile', function () {
     });
     
     it('validates required fields', function () {
-        $response = $this->post('/env-profiles', []);
+        $response = $this->post('/env-profile-manager', []);
         
         $response->assertSessionHasErrors(['name', 'content']);
     });
@@ -97,7 +97,7 @@ describe('Store Profile', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->post('/env-profiles', [
+        $response = $this->post('/env-profile-manager', [
             'name' => 'Existing',
             'content' => 'NEW_CONTENT=test',
         ]);
@@ -114,7 +114,7 @@ describe('Update Profile', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->put("/env-profiles/{$profile->id}", [
+        $response = $this->put("/env-profile-manager/{$profile->id}", [
             'name' => 'Updated',
             'app_name' => 'Updated App',
             'content' => 'UPDATED=true',
@@ -141,7 +141,7 @@ describe('Update Profile', function () {
         ]);
         
         // Should allow keeping the same name
-        $response = $this->put("/env-profiles/{$profile1->id}", [
+        $response = $this->put("/env-profile-manager/{$profile1->id}", [
             'name' => 'Profile 1',
             'content' => 'UPDATED=true',
         ]);
@@ -149,7 +149,7 @@ describe('Update Profile', function () {
         $response->assertRedirect()->assertSessionDoesntHaveErrors();
         
         // Should not allow using another profile's name
-        $response = $this->put("/env-profiles/{$profile1->id}", [
+        $response = $this->put("/env-profile-manager/{$profile1->id}", [
             'name' => 'Profile 2',
             'content' => 'UPDATED=true',
         ]);
@@ -165,7 +165,7 @@ describe('Delete Profile', function () {
             'content' => $this->envContent,
         ]);
         
-        $response = $this->delete("/env-profiles/{$profile->id}");
+        $response = $this->delete("/env-profile-manager/{$profile->id}");
         
         $response->assertRedirect()
             ->assertSessionHas('success', 'Profile deleted successfully');
@@ -181,7 +181,7 @@ describe('Activate Profile', function () {
             'content' => 'ACTIVATED=true',
         ]);
         
-        $response = $this->post("/env-profiles/{$profile->id}/activate");
+        $response = $this->post("/env-profile-manager/{$profile->id}/activate");
         
         $response->assertRedirect()
             ->assertSessionHas('success', 'Profile activated and applied successfully');
@@ -203,7 +203,7 @@ describe('Activate Profile', function () {
             'content' => 'NEW_ACTIVE=true',
         ]);
         
-        $this->post("/env-profiles/{$newProfile->id}/activate");
+        $this->post("/env-profile-manager/{$newProfile->id}/activate");
         
         $activeProfile->refresh();
         $newProfile->refresh();
@@ -215,7 +215,7 @@ describe('Activate Profile', function () {
 
 describe('Current Env Management', function () {
     it('can get current env content', function () {
-        $response = $this->get('/env-profiles/current-env');
+        $response = $this->get('/env-profile-manager/current-env');
         
         $response->assertOk()
             ->assertJson(['content' => $this->envContent]);
@@ -224,7 +224,7 @@ describe('Current Env Management', function () {
     it('can update current env content', function () {
         $newContent = 'UPDATED_ENV=true';
         
-        $response = $this->put('/env-profiles/current-env', [
+        $response = $this->put('/env-profile-manager/current-env', [
             'content' => $newContent,
         ]);
         
@@ -235,7 +235,7 @@ describe('Current Env Management', function () {
     });
     
     it('validates content is required for env update', function () {
-        $response = $this->putJson('/env-profiles/current-env', []);
+        $response = $this->putJson('/env-profile-manager/current-env', []);
         
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['content']);

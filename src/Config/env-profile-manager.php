@@ -6,11 +6,11 @@ return [
     | Route Configuration
     |--------------------------------------------------------------------------
     |
-    | Configure the routes for the env-profiles package
+    | Configure the routes for the env-profile-manager package
     |
     */
-    'route_prefix' => 'env-profiles',
-    'api_prefix' => 'api/env-profiles',
+    'route_prefix' => 'env-profile-manager',
+    'api_prefix' => 'api/env-profile-manager',
 
     /*
     |--------------------------------------------------------------------------
@@ -31,10 +31,10 @@ return [
     | The layout to extend for the package views.
     | Set to null to use the package's default layout.
     | Example: 'layouts.app' to use your application's layout.
-    | Default: 'env-profiles::layouts.default'.
+    | Default: 'env-profile-manager::layouts.default'.
     |
     */
-    'layout' => 'env-profiles::layouts.default',
+    'layout' => 'env-profile-manager::layouts.default',
 
     /*
     |--------------------------------------------------------------------------

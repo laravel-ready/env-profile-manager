@@ -32,13 +32,13 @@ describe('Service Provider', function () {
     it('publishes config file', function () {
         $this->artisan('vendor:publish', [
             '--provider' => 'LaravelReady\EnvProfiles\EnvProfilesServiceProvider',
-            '--tag' => 'env-profiles-config',
+            '--tag' => 'env-profile-manager-config',
         ])->assertSuccessful();
         
-        expect(File::exists(config_path('env-profiles.php')))->toBeTrue();
+        expect(File::exists(config_path('env-profile-manager.php')))->toBeTrue();
         
         // Clean up
-        File::delete(config_path('env-profiles.php'));
+        File::delete(config_path('env-profile-manager.php'));
     });
 });
 
@@ -151,7 +151,7 @@ describe('Profile Name Edge Cases', function () {
     });
     
     it('trims whitespace from profile names', function () {
-        $response = $this->postJson('/api/env-profiles', [
+        $response = $this->postJson('/api/env-profile-manager', [
             'name' => '  Trimmed Name  ',
             'content' => 'TEST=true',
         ]);
@@ -167,7 +167,7 @@ describe('Theme Support', function () {
     it('includes theme assets in views', function () {
         // In test environment, view rendering will fail
         // So we just verify the route exists
-        $response = $this->get('/env-profiles');
+        $response = $this->get('/env-profile-manager');
         
         // View not found error is expected in test env
         $response->assertStatus(500);
@@ -177,7 +177,7 @@ describe('Theme Support', function () {
             return $route->uri();
         });
         
-        expect($routes->contains('env-profiles'))->toBeTrue();
+        expect($routes->contains('env-profile-manager'))->toBeTrue();
     });
 });
 

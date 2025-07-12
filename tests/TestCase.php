@@ -30,13 +30,13 @@ class TestCase extends Orchestra
         config()->set('app.key', 'base64:'.base64_encode('32characterssecretkeyfortesting!'));
         
         // Set default package config
-        config()->set('env-profiles.route_prefix', 'env-profiles');
-        config()->set('env-profiles.api_prefix', 'api/env-profiles');
-        config()->set('env-profiles.middleware', ['web']);
-        config()->set('env-profiles.api_middleware', ['api']);
-        config()->set('env-profiles.layout', null);
-        config()->set('env-profiles.max_backups', 10);
-        config()->set('env-profiles.features', [
+        config()->set('env-profile-manager.route_prefix', 'env-profile-manager');
+        config()->set('env-profile-manager.api_prefix', 'api/env-profile-manager');
+        config()->set('env-profile-manager.middleware', ['web']);
+        config()->set('env-profile-manager.api_middleware', ['api']);
+        config()->set('env-profile-manager.layout', null);
+        config()->set('env-profile-manager.max_backups', 10);
+        config()->set('env-profile-manager.features', [
             'api' => true,
             'web_ui' => true,
             'backups' => true,

@@ -13,7 +13,7 @@ class EnvProfilesServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/Config/env-profiles.php', 'env-profiles'
+            __DIR__.'/Config/env-profile-manager.php', 'env-profile-manager'
         );
 
         $this->app->singleton(EnvFileService::class, function ($app) {
@@ -26,33 +26,33 @@ class EnvProfilesServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('env-profiles.features.web_ui', true)) {
+        if (config('env-profile-manager.features.web_ui', true)) {
             $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         }
         
-        if (config('env-profiles.features.api', true)) {
+        if (config('env-profile-manager.features.api', true)) {
             $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         }
         
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'env-profiles');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'env-profile-manager');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/Config/env-profiles.php' => config_path('env-profiles.php'),
-            ], 'env-profiles-config');
+                __DIR__.'/Config/env-profile-manager.php' => config_path('env-profile-manager.php'),
+            ], 'env-profile-manager-config');
 
             $this->publishes([
-                __DIR__.'/resources/views' => resource_path('views/vendor/env-profiles'),
-            ], 'env-profiles-views');
+                __DIR__.'/resources/views' => resource_path('views/vendor/env-profile-manager'),
+            ], 'env-profile-manager-views');
 
             $this->publishes([
-                __DIR__.'/resources/js' => public_path('vendor/env-profiles/js'),
-            ], 'env-profiles-assets');
+                __DIR__.'/resources/js' => public_path('vendor/env-profile-manager/js'),
+            ], 'env-profile-manager-assets');
 
             $this->publishes([
                 __DIR__.'/database/migrations' => database_path('migrations'),
-            ], 'env-profiles-migrations');
+            ], 'env-profile-manager-migrations');
         }
 
         $this->commands([

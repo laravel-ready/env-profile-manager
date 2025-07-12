@@ -1,8 +1,8 @@
-@extends(config('env-profiles.layout', 'env-profiles::layouts.default'))
+@extends(config('env-profile-manager.layout', 'env-profile-manager::layouts.default'))
 
 @section('content')
 
-<div id="env-profiles-app" class="min-h-screen bg-gray-50 dark:bg-gray-900">
+<div id="env-profile-manager-app" class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto py-8 px-4">
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Environment Profiles Manager</h1>
@@ -11,7 +11,7 @@
 
         <env-profile-manager :initial-profiles='@json($profiles)' :initial-env-content='@json($currentEnv)'
             :default-app-name='@json($appName)'
-            api-base-url="{{ url(config('env-profiles.api_prefix', 'api/env-profiles')) }}" />
+            api-base-url="{{ url(config('env-profile-manager.api_prefix', 'api/env-profile-manager')) }}" />
     </div>
 </div>
 
@@ -37,6 +37,6 @@
 <script>
     require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } });
 </script>
-<script type="module" src="{{ asset('vendor/env-profiles/js/app.js') }}"></script>
+<script type="module" src="{{ asset('vendor/env-profile-manager/js/app.js') }}"></script>
 @endpush
 @endsection

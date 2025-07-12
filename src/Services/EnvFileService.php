@@ -34,7 +34,7 @@ class EnvFileService
 
     public function backup()
     {
-        if (!File::exists($this->envPath) || !config('env-profiles.features.backups', true)) {
+        if (!File::exists($this->envPath) || !config('env-profile-manager.features.backups', true)) {
             return;
         }
 
@@ -47,7 +47,7 @@ class EnvFileService
     protected function cleanOldBackups()
     {
         $backupFiles = File::glob(base_path('.env.backup.*'));
-        $maxBackups = config('env-profiles.max_backups', 10);
+        $maxBackups = config('env-profile-manager.max_backups', 10);
         
         if (count($backupFiles) > $maxBackups) {
             usort($backupFiles, function ($a, $b) {
