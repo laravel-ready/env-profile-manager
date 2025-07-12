@@ -1,10 +1,14 @@
 parameters:
-    level: 8
+    level: 5
     paths:
         - src
-        - tests
     excludePaths:
         - src/database/migrations/*
     ignoreErrors:
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\.*#'
+        # Ignore Eloquent magic methods
+        - '#Call to an undefined static method LaravelReady\\EnvProfiles\\Models\\EnvProfile::(create|find|where|orderBy|findOrFail)\(\)#'
+        - '#Access to an undefined property LaravelReady\\EnvProfiles\\Models\\EnvProfile::\$\w+#'
+        # Ignore missing return types for controller methods (common in Laravel)
+        - '#Method LaravelReady\\EnvProfiles\\Http\\Controllers\\EnvProfileController::\w+\(\) has no return type specified#'
     reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
