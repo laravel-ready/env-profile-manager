@@ -17,11 +17,12 @@
         "illuminate/http": "^10.0|^11.0|^12.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.0|^11.0",
+        "friendsofphp/php-cs-fixer": "^3.82",
         "orchestra/testbench": "^8.0|^9.0|^10.0@dev",
         "pestphp/pest": "^2.20|^3.0@dev",
         "pestphp/pest-plugin-laravel": "^2.2|^3.0@dev",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {
@@ -51,6 +52,8 @@
     "scripts": {
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "phpstan": "vendor/bin/phpstan analyse"
+        "phpstan": "vendor/bin/phpstan analyse",
+        "cs-fix": "vendor/bin/php-cs-fixer fix",
+        "cs-check": "vendor/bin/php-cs-fixer fix --dry-run --diff"
     }
 }
