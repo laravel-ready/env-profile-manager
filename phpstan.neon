@@ -1,0 +1,10 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - src/database/migrations/*
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\.*#'
+    reportUnmatchedIgnoredErrors: false
