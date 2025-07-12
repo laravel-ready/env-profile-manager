@@ -13,6 +13,12 @@
         <include>
             <directory>src</directory>
         </include>
+        <exclude>
+            <directory>src/resources/views</directory>
+            <directory>src/database/migrations</directory>
+            <directory>src/database/Factories</directory>
+            <directory>src/Config</directory>
+        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
